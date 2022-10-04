@@ -1,0 +1,689 @@
+ctrl +C  - terminate the current command
+ctrl +c  twice - terminates the node repl
+--------------------------------------------------------------------------------------------------------------
+Node js notes
+8/10/2022
+----------
+
+node index.js list 
+
+built in  global variables
+-------------------------
+1.console
+2.timers
+3.__filename and __dirname
+4.Process (to access the command line args. process.arg gives array . use to put callback to next cycle)
+
+
+npm(node package manager)
+---------------------------
+it can control the complete ecosystem of the project 
+dependencies which we donot use in production phase(i.e testing phase dependencies) will move to devdependencies 
+dependencies which were used in both production and testing phase go to dependencies 
+
+semantic versioning
+--------------------
+X Y Z
+X - major version
+Y - minor version (times)
+Z - patch version  (bug fixing change times)
+
+
+npm ls -depth 0
+// this will not show the child classes indepth
+
+npm ls -depth 1
+//this will show 1 child class 
+
+npm config set init-version=1.0.0
+npm config get registry
+npm search log 
+
+EXPRESS
+--------
+html,css,js ----------------------------------> logger,authenticate,response like middlewares 
+
+1.request
+2.response
+3.next()
+
+//send is the function which is only available with express
+// the call back function is the middleware 
+commmands:
+-------------
+cd todo-app
+npm init-y
+npm i express 
+create src -> server.js
+//create /src in root
+//create server.js in src 
+
+server.js
+--------
+const express = require("express");
+const app = express();
+app.use(express.json());
+const todos = {id : "101",label : "renew car insurance",status :"done"},
+{id : "102",label : "bring veggies",status :"done"}
+{id : "103",label : "water the plants",status :"done"}
+app.get("/",(request,response) =>{
+
+//response.send({message : "SUCCESS"})
+response.send("<h1> Hello World </h1>");
+// we can send anytype of function using send function.
+
+
+})
+
+app.listen(3031,() => console.log("Server started at PORT : 3031"))
+
+
+
+command:
+-----
+node src\server.js
+press ctrl+c
+go to package.json --> scripts --> "start:dev" : "nodemon src/server.js",
+
+in command line prompt : npm run start:dev
+
+
+
+todo application using get,post,patch,delete
+--------------------------------------------
+
+//get
+app.get("/api/todos",(req,res) =>
+{
+res.send(todos)
+}
+
+//post
+app.post("/api/todos",(req,res) =>
+{
+let todo =
+{
+id : "10" + (todos.length +1),
+label:req.body.label,
+status : pending
+}
+todos.push(todo);
+return res.send(todo)
+}
+//delete
+app.delete("api/todos/:todoId",(req,res) => 
+{
+
+console.log(req.params);
+return res.send({message : "API HIT"})
+})////
+const position = todos.findIndex(todo => todo.id ===req.params.todoId)
+if(position >= 0)
+{
+const todoToBeDeleted =todos[postion]
+todos.splice(postion,1)
+return res.send(todoToBeDeleted)
+
+}
+else
+{
+return res.send({error " ID is not found"})
+}
+})
+
+
+
+JSON :
+----
+"label " : "new label"
+
+
+JSON : 
+---
+{
+"status" : "done"
+
+}
+
+
+
+
+
+patch((req,res) =>
+{
+const todocontent = JSON.stringify(req.body)
+fs.writeFile(
+------------------------------------------------------------------------------------------------------------------
+react
+React 
+-------
+TO INSTALL CRA 
+--> npm install -g create-react-app
+TO create a app
+--> create-react-app <app-name> 
+
+--> npx create-react-app <app-name>  will perform both the install cra and app even
+
+CRA commands:
+-------------
+--> npm run start 
+--> npm run build
+--> npm run eject  ***warning : this should be used as it will eject the configurations. if we want to change the existing configurations we can use this command 
+
+npx browserslist
+
+manifest.json was used to make our application run without internet 
+
+there will be One root element in the jsx
+we can embed the javascript code with html or html with javascript code 
+
+
+intially the showform value will be true and when the showform value is true then we will get thechanges 
+
+As the react can have the watchers they cannot re render the variables (state variables) wheras we can re render the javascript variables 
+
+controlled - react will control the state
+uncontrolled  - react willnot control the state
+--------------------------------------------------------------------------------------------------------------------
+nsaireshma@deloitte.com
+tse123lms
+-------------------------------------
+webpack
+8/11/2022
+---------
+--> boiler plate projects were created using node js
+--> central repository of configuration for tools is package.json
+--> package.json manages the dependencies (whether it is dev dependencies or dependencies ) of our project
+
+
+properties of package.json
+-------------------------
+version : indicates current version 
+name    : sets the application / package name  
+description
+main: entry point of  application 
+private 
+scripts
+dependencies
+dev dependencies
+
+
+--> version and name are the heads or properties that are needed for the package.json
+
+Webpack (Folder structure)
+---------------------------
+to bundle the module so that all modules can be included 
+in nutshell , webpack is the module bundler for modern javascript applications 
+webpack build the dependencies graph from one or more entry points and converts into bundles and give the static assests(the files which are not dynamic and can
+be loaded into browser)
+
+
+webpack : core concepts
+-----------------
+entry : species the entry point 
+output : where your final assests (static assets) needed to be generated.it even tells how to emit and name files
+loaders : needed to specify for images, css files and convert them into valid modules helpful for application 
+plugins : additional functionality for webpacks
+Mode : Mode can be of parameters
+--> development
+--> production (webpack setup everything in modules and make the module ready for deployment even )
+--> none
+default value is production.
+
+npm init -y
+npm i webpack webpack-cli -D
+setup the script in package.json file -"build":  "webpack" ( here  build was in production)
+-->build : webpack -- mode development (for development)
+--> build : webpack-- mode none(for none)
+npm  run  build 
+
+
+-->if we change in webpack.config.js then we need to mention in package.json
+--> if we use the js files names other than index.js then we need to mention explicitly 
+
+npm i  raw-loader -D
+npm i css-loader style-loader -D
+npm i axios
+
+
+npm i html-webpack-plugin -D
+
+npm i webpack-dev-server -D
+
+axios can be used for both node and browser and it returns the promises
+
+import axios from 'axios';
+const btnfetch  = document.querySelector("#btnFetch")
+btnfetch.addEventListener("click",() =>
+{
+axios.get("")
+.then(response =>
+{
+console.log(
+
+
+css --> style.css
+style.css
+background-color : red;
+index.js
+import "./css/style.css";
+
+index.html
+<body>
+
+h1 class = "heading" > Header</h1>
+
+
+                     Browser             Node
+ESM                 with config 
+                     type = "module"      .mjs 
+                      .js text 
+commonJS                                  default 
+AMD/UMD
+
+--> BAbel 
+@babel/core
+@babel/present-env
+babel-loader are the two libraries needed to include to the code
+babel-loader was used with webpack whereas remaining two need their own configuration)inaddtion to  webpack configuration additional config is needed)
+ 
+-> with package.json
+-> .babelrrc file 
+-> babel.config.json
+
+
+npm i @babel/core @babel/preset-env babel-loader -D
+
+-> 
+
+-------------------------------------------------
+git
+git branch
+git add text file
+git status
+git commit -m "initial commit"
+git add .
+git commit -m "second commit"
+git branch second-branch 
+git branch 
+git restore textfile name
+git clean -df
+
+--------------------------------------------------------------------------------------------------------------
+react
+
+React 
+-------
+TO INSTALL CRA 
+--> npm install -g create-react-app
+TO create a app
+--> create-react-app <app-name> 
+
+--> npx create-react-app <app-name>  will perform both the install cra and app even
+
+CRA commands:
+-------------
+--> npm run start 
+--> npm run build
+--> npm run eject  ***warning : this should be used as it will eject the configurations. if we want to change the existing configurations we can use this command 
+
+npx browserslist
+
+manifest.json was used to make our application run without internet 
+
+there will be One root element in the jsx
+we can embed the javascript code with html or html with javascript code 
+
+
+intially the showform value will be true and when the showform value is true then we will get thechanges 
+
+As the react can have the watchers they cannot re render the variables (state variables) wheras we can re render the javascript variables 
+
+controlled - react will control the state
+uncontrolled  - react willnot control the state
+ 
+npx - package manager 
+either you direct execute it or 
+npm - install it in the machine 
+ 
+
+component types:
+1. functional component 
+2. class Based component 
+
+const fuc(a,b) => (a+b);
+
+
+
+
+
+
+functionality called as hooks. we can perform all the tasks in the functional component with the help of hooks that we can perform in the class based components
+in v.16.8 to hold the state and maintain the sideaffects 
+prefix use - hooks 
+use enables you to maintain the state 
+functional component was more preferable 
+
+FUnctional component:
+------------------
+1. functional component is created using javascript function
+2. we can use the arrow function
+
+
+
+class based components:
+------------------------
+created using Es6 class syntax
+React.component class is obligated for the extened class to implement the render method 
+
+
+
+
+JSX:
+----
+jsx  produces react elements
+
+
+unidirectional data flow
+1. state is passed to the view and to the child components
+2. actions are triggered by the view
+3. actions can update the state
+view --> actions -->  state --> view 
+
+we cannot change the props element and props was useful for sending  state information from parent element to child element using attributes . 
+it can an object , primitive value and reference value. we can send the array . they are immutable 
+
+State : 
+------
+A state in react is its own local state . it cannot access or modified outside the component and can only be used inside the component .
+react components can be made dynamic by adding the state components.
+when component needs to change independently of its component , state is used.
+changes to state will trigger an UI update
+the state of components can be updated using setState
+
+Components :
+----------
+ React function components are the equivalent of react class components but expressed as functions instead of classes
+React Hooks were introduced to bring side-effects to function components . 
+the only constraint for a functional component is to accept props as an argument and return valid jsx 
+
+class Based component :
+-----------------------
+--> components were introduced in javascript es6
+--> All internal react component logic comes from the extends React.Component via object-oriented inheritance
+--> react class components offer several lifecycle methods
+--> this.setState ,this.state and lifecycle methods statemanagement and side-effects can be used side by side in a react class component 
+
+Component Life cycle methods :
+-----------------------------
+1. mounting
+2. updating
+3. unmouting 
+
+
+did mount - to intiliaze the resources 
+unmount  - to release the resources 
+did update  - to update the resources 
+
+
+Hooks :
+-------
+Hooks are the new addition in React 16.8 e.g useState, useEffect, useCOntext. useReducer and many more
+THey let you use state and other React features without writing class component
+don't call hooks inside loops, conditions or nested functions . only call hooks at the top level
+call hooks from the functional components
+
+hook : useState:
+-----------------
+const[state,setState] = useState(initialState);
+ --> during the initial render the returned state is the same as the value passed as the first argument (intial state)
+ 
+-->when the  new state depends on the previous state then we use the callback function for the setstate 
+
+difference between javascript variables and react jsx variables :
+-------------------------------------------------------
+jsx variables contains the watchers which see the newly added information and add them /render them to the elements
+
+
+Hook : useEffect :
+-----------------
+To perform any sideeffect we use useEffect hook. 
+
+useEffect(didUpdate); {didUpdate is a callback function)
+--> accepts a function that contains imperative,possibly effectful code
+--> useEffect may return a clean-up function
+
+we never use the useeffect without dependencies 
+1. call back function 
+2. dependencies
+
+
+if we supply the empty array or dependencies at the  time of the useeffect function(inside the useeffect function )then it won't repeat but execute in console 
+at initial rendering but  won't come after clicking button
+
+the clean up function will fire just before the callback function except  for the first time. 
+
+
+useEffect Flavours 
+---------------------
+useEffect(() => {}) -- every re-rendering of component
+useEffect(() => {}[])/ componentDidMount -- only for the initial  rendering 
+useEffect(() => {},[dep1,dep2])/componentDidUpdate -- everytime whenever one of the dependency changes
+useEffect(() => () =>{} ,[dep1])/componentWillUnmount -- fires everytime whenever the dependency changes , just before the callback , cleanup function will fire except for initial rendering
+
+Debouncing : 
+----------
+wait for time till the user completes writing 
+
+Type Ahead suggestion:
+----------------------
+give the user the suggestions which were ableand which are not .
+
+
+
+Hook : useContext()
+------------------
+props drilling is the problem which is  formed as we need to add the props which may need or mayout  need but to complete the chain we need to add them to the 
+components which is a problem  so to avoid it we use use context hook
+
+in this we will bind  the  components with the help of provider. 
+
+
+accepts a context object the value returned from React.create(context) and returns the current context value for the context
+
+
+Hook:useReducer() :
+-----------------
+const [state, dispatch] = useReducer(reducer,intialArg, init);
+view ---- dispatch() --> action and this proprty can be anytype
+reducer is the pure function 
+Pure function : which doesnot have sideeffects
+side effects : which  randomly generates the value 
+reducer  contains two functions which are state and action --> (state,action) => new state
+
+
+
+
+
+------                                     _______
+|view| ------------------------------------|store|
+-------                                    -------
+|                                          ^
+|                                          |
+|                                          |
+|                                          |
+|                                          |
+|                                          |
+v                                          |                                        
+                                      
+action ---------------------------------> Reducer
+------                                    -------
+
+
+
+accepts a reducer of type (state,action) => newState and return the current state paired with a dispatch method
+never mutate the  state . if  you mutate the state then the purpose of reducer will be failed
+
+
+use Memo - value  will be  returned
+uecallback - function will be returned 
+useCallBack(fn,deps) will be equivalent to useMemo(() => fn,deps).
+
+React Memo if the child and the parent components were similar then it won't re render 
+it won't work on the reference equality . 
+
+props.prev.toggle === props.toggle // false
+this is reference equality
+
+const changevalue = usememo(() => console.log("CHANGING VALUES"));
+const changevalue  = usecallback => console.log("CHANGING VALUES "));
+ were equal
+
+
+REDUX :
+--------
+ngrx is the package which is maninly used for redux management in the angular
+vuex is the package managed in vue for redux management
+react-redux is the package used in react for redux management
+context api is not responsible for the changes which are happening frequently . it won't optimize hence we consider redux for reasonable amount of data 
+which is changing over time. 
+for example we can use the data for login-logout but redux is helpful for stock exchange etc.
+redux is a centralized place where you can store amount of data
+
+redux is third party whereas context-api is builtin
+
+how to install : 
+
+npm install redux react-redux
+redux is a predictable state container which means it is acentralized place which can store data for all javascript applications irrespective of the place where it
+is running
+we can visualize the code editing and it has time traveller debugging
+
+
+Three principles of react : 
+state of your whole application is stored in an objecttree within a single store
+
+Actions : 
+--------
+they are the payloads of information that send data from your application to your store
+they are the only source of information for the store
+you send them to the store using store.dispatch()
+
+Reducer:
+--------
+it is a pure function that takes the previous state and an action and returns the next state
+it specify how the application's state changes in response to actions sent to the store
+they only describe what happened but doesn't tell how the application's state changes
+
+--*never ever mutate the state and action in reducer.
+--* never perform side effects like api calls and routing transitions
+--* never call non pure functions e.g : Date.now() or Math.random()
+
+
+
+Store: 
+-----
+--> it is a single  object
+--> it holds application state
+--> it allows the access to state
+--> allows state to be updated via dispatching action 
+--> registers listeners via subscribers
+dispatch method is used for triggering the action
+
+
+Data Flow in redux:
+------------------
+redux architecture revolves around a strict unidirectional data flow
+datacycle : 
+1. your view will dispatch the action
+2.redux store calls the reducer function
+3. root reducer may combine the output of multiple reducers into a single state tree
+4. redux store saves the complete state tree returned by the root reducer
+
+
+ 
+
+
+
+Testing : 
+--------
+manual testing : write code and preview and test in the browser
+error -prone . it is hard to test all possible combination and scenarios 
+what your user will see.
+
+
+Automated Testing :
+code that test your code
+test individual building blocks of your app
+very technical but allows you to test all building blocks at once
+
+Different kind of automated tests
+------------------------------
+unit tests : test the individual building blocks (functions , components ) isolation. 
+Projects typically contains dozens or hundreds of Unit tests.
+the most common /important kind of test.
+
+
+
+integration tests :
+tests the combination of multiple building blocks 
+projects typically contain couple of integration tests
+focus on unit tests in most cases
+
+
+End to end tests :
+tests complete scenarios in your app as the user would experience them
+projects typically contain only a few of e2e tests
+
+important but can be done manually 
+
+----------------------------------------------------------------------------------------------------------------
+react1-js.txt
+package.json - the file  contains information about the project that node.js 
+uses to keep it organized 
+A state - it is a model 
+A component is areusable module that renders a part of our app. 
+app.js  file consists of three main parts:
+import statements at the top
+app  components in the  middle 
+export components in the bottom 
+
+import  React from 'react';
+this imports the  react library itself. prior to the react 17 release
+in 2020  . so  skipping this step would result  in an error. 
+
+React turned the JSx code to react.createElement()
+
+we don't write  a path  or extension when importing the react module this is 
+not a local file . 
+
+import logo from './logo.svg'; 
+the second  statement imports a logo from './logo.svg'. Note the use 
+of ./ at the beginning of the path . the .svg  extension at the end 
+tell us that the file is local and that it is not a java script  fiile.
+logo.svg file lives in our source directory.
+
+import './App.css';
+this component imports  the css related to our App  component .  Note that
+there is no  variable name and no from directive . this is called a side -effect
+import . it doesn't import any value  into the javascript  file.
+but  it  tells webpack  the bundler to the refenced css file to the final  css bundle 
+
+
+App component :
+-------------
+
+app  function  returns  a JSX expression. This expression defines what your 
+browser ultimately renders
+
+
+
+
+------------------------------------------------------------------------------
+
+
+
+
+
+
+
